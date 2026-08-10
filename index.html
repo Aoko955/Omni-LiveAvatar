@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Omni-LiveAvatar: Minute-Level Real-Time Streaming Joint Audio-Video Avatar Generation</title>
+  <meta name="description" content="Omni-LiveAvatar — the first framework for minute-level, real-time streaming joint audio-video avatar generation.">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+  <style>
+    :root {
+      --ink: #111318;
+      --muted: #58606d;
+      --paper: #ffffff;
+      --soft: #f5f7fb;
+      --line: #dfe4ec;
+      --accent: #db3b3b;
+      --cool: #2378a7;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Noto Sans", "Inter", "Segoe UI", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: var(--cool);
+    }
+
+    .hero {
+      background: linear-gradient(180deg, #fbfcff 0%, #eef3f8 100%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-body {
+      padding: 3.5rem 1.5rem 2.5rem;
+    }
+
+    .publication-title {
+      max-width: 980px;
+      margin: 0 auto;
+      font-size: 2.35rem;
+      font-weight: 750;
+      line-height: 1.18;
+    }
+
+    .publication-authors {
+      max-width: 980px;
+      margin: 1rem auto 0;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .author-block {
+      display: inline-block;
+      margin: 0 .22rem;
+    }
+
+    .affiliations {
+      margin-top: .6rem;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .publication-links {
+      margin-top: 1.25rem;
+    }
+
+    .publication-links .button {
+      margin: .25rem;
+      min-width: 112px;
+    }
+
+    .section {
+      padding: 2.7rem 1.5rem;
+    }
+
+    .section.is-soft {
+      background: var(--soft);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section.is-darkband {
+      color: #f4f7fb;
+      background: #111318;
+    }
+
+    .container.narrow {
+      max-width: 860px;
+    }
+
+    .container.wide {
+      max-width: 1120px;
+    }
+
+    .section-title {
+      color: inherit;
+      font-size: 1.55rem;
+      font-weight: 700;
+      margin-bottom: 1.1rem;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      margin: -.45rem 0 1.3rem;
+      line-height: 1.6;
+    }
+
+    .is-darkband .section-subtitle {
+      color: #aeb8c5;
+    }
+
+    .content p {
+      font-size: 1.04rem;
+      line-height: 1.72;
+    }
+
+    .media-frame {
+      overflow: hidden;
+      border: 1px solid rgba(17, 19, 24, .1);
+      border-radius: 8px;
+      background: #050609;
+      box-shadow: 0 12px 34px rgba(17, 19, 24, .1);
+    }
+
+    .teaser-img,
+    .paper-img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.55;
+      margin-top: .7rem;
+      text-align: center;
+    }
+
+    .is-darkband .caption {
+      color: #aeb8c5;
+    }
+
+    .highlight-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.3rem;
+    }
+
+    .highlight-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1rem;
+      background: #fff;
+    }
+
+    .highlight-card strong {
+      display: block;
+      color: var(--accent);
+      margin-bottom: .45rem;
+    }
+
+    .highlight-card p {
+      color: var(--muted);
+      font-size: .95rem;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .method-panel {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(17, 19, 24, .08);
+      margin-top: 1rem;
+    }
+
+    .method-panel.compact {
+      max-width: 980px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .video-case {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      margin-bottom: 1.35rem;
+      overflow: hidden;
+      max-width: 920px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .case-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .85rem 1rem;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcff;
+    }
+
+    .case-title {
+      font-weight: 700;
+    }
+
+    .case-prompt {
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.45;
+      text-align: right;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0;
+    }
+
+    .video-cell {
+      min-width: 0;
+      border-right: 1px solid var(--line);
+    }
+
+    .video-cell:last-child {
+      border-right: 0;
+    }
+
+    .video-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 36px;
+      font-size: .86rem;
+      font-weight: 700;
+      color: #fff;
+      background: #2d3440;
+    }
+
+    .video-label.ours {
+      background: var(--accent);
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 832 / 480;
+      background: #000;
+      object-fit: cover;
+    }
+
+    .placeholder-video {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      aspect-ratio: 832 / 480;
+      background: #1a1d24;
+      color: #aeb8c5;
+      font-size: .95rem;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.1rem;
+    }
+
+    .metric-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1rem;
+      background: #fff;
+      text-align: center;
+    }
+
+    .metric-value {
+      color: var(--cool);
+      font-size: 1.65rem;
+      font-weight: 750;
+      line-height: 1;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: .92rem;
+      margin-top: .55rem;
+    }
+
+    .subsection-title {
+      color: inherit;
+      font-size: 1.18rem;
+      font-weight: 700;
+      margin: 2rem 0 .75rem;
+    }
+
+    .table-block {
+      margin-top: 1.6rem;
+    }
+
+    .table-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: .55rem;
+    }
+
+    .table-note {
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.45;
+      margin-top: .55rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    table.results-table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      font-size: .88rem;
+      line-height: 1.35;
+    }
+
+    table.results-table th,
+    table.results-table td {
+      padding: .55rem .65rem;
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    table.results-table th:first-child,
+    table.results-table td:first-child {
+      text-align: left;
+    }
+
+    table.results-table thead th {
+      color: #262b34;
+      background: #f4f6fa;
+      font-weight: 700;
+    }
+
+    table.results-table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    table.results-table th.group-hdr {
+      border-left: 2px solid var(--line);
+      border-right: 2px solid var(--line);
+    }
+
+    table.results-table .group-row td {
+      color: #323946;
+      background: #eef1f6;
+      font-style: italic;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    table.results-table .ours-row td:first-child {
+      font-weight: 700;
+    }
+
+    table.results-table .best {
+      font-weight: 800;
+    }
+
+    table.results-table .second {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .bibtex-box {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fafc;
+      padding: 1.1rem;
+      font-size: .9rem;
+    }
+
+    .bibtex-box pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    footer.footer {
+      padding: 2rem 1.5rem;
+      background: #111318;
+      color: #aeb8c5;
+    }
+
+    footer a {
+      color: #dce7f3;
+    }
+
+    @media (max-width: 900px) {
+      .publication-title {
+        font-size: 1.85rem;
+      }
+
+      .highlight-grid,
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .case-header {
+        display: block;
+      }
+
+      .case-prompt {
+        margin-top: .35rem;
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .hero-body {
+        padding-top: 2.4rem;
+      }
+
+      .publication-title {
+        font-size: 1.45rem;
+      }
+
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .video-cell,
+      .video-cell:last-child {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .video-cell:last-child {
+        border-bottom: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="publication-title">
+          Omni-LiveAvatar: Minute-Level Real-Time Streaming Joint Audio-Video Avatar Generation
+        </h1>
+        <div class="publication-authors">
+          <span class="author-block"><a href="https://scholar.google.com/citations?user=ZnKjHG0AAAAJ&hl=zh-CN" target="_blank">Lunjie Zhu</a><sup>1,2</sup>,</span>
+          <span class="author-block"><a href="https://xingtongge.github.io" target="_blank">Xingtong Ge</a><sup>1,2</sup>,</span>
+          <span class="author-block"><a href="https://github.com/rslinfy" target="_blank">Fangyu Lin</a><sup>1,2</sup>,</span>
+          <span class="author-block"><a href="https://zhangyi-3.github.io/" target="_blank">Yi Zhang</a><sup>2</sup>,</span>
+          <span class="author-block"><a href="https://www.liuzhening.top/" target="_blank">Zhening Liu</a><sup>1</sup>,</span>
+          <span class="author-block"><a href="https://scholar.google.com/citations?user=m39CfiwAAAAJ" target="_blank">Mengfei Li</a><sup>1,2</sup>,</span>
+          <span class="author-block"><a href="https://scholar.google.com/citations?user=ueArr5YAAAAJ&hl=en" target="_blank">Yumeng Zhang</a><sup>1</sup>,</span>
+          <span class="author-block"><a href="https://scholar.google.com/citations?user=Bd3v08QAAAAJ&hl=zh-CN" target="_blank">Guanglu Song</a><sup>2</sup>,</span>
+          <span class="author-block"><a href="https://scholar.google.com/citations?user=Lzb6A1sAAAAJ&hl=en" target="_blank">Yu Liu</a><sup>2</sup>,</span>
+          <span class="author-block"><a href="https://eejzhang.people.ust.hk/" target="_blank">Jun Zhang</a><sup>1 &#9993;</sup></span>
+        </div>
+        <div class="affiliations">
+          <sup>1</sup>iComAI Lab, Hong Kong University of Science and Technology &nbsp;
+          <sup>2</sup>Vivix Group Limited
+        </div>
+        <div class="publication-links">
+          <a class="button is-rounded is-dark" href="https://arxiv.org" target="_blank" style="opacity:0.5; pointer-events:none;">
+            <span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv (coming soon)</span>
+          </a>
+          <a class="button is-rounded is-dark" href="https://github.com/Aoko955/Omni-LiveAvatar" target="_blank">
+            <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Teaser ===== -->
+  <section class="section">
+    <div class="container wide">
+      <div class="media-frame">
+        <img class="teaser-img" src="static/images/teaser.jpg" alt="Qualitative comparison of minute-level generation by Omni-LiveAvatar">
+      </div>
+      <p class="caption">
+        Qualitative comparison of minute-level generation. Compared with state-of-the-art baselines, Omni-LiveAvatar preserves consistent avatar and background appearance, and maintains tight audio-video alignment over a minute-long rollout, whereas OmniForcing and Hallo-Live exhibit severe appearance drift. In the bottom row, the syllable uttered at each frame is highlighted in red, and the insets show the corresponding mouth shapes for lip-audio alignment.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== Abstract ===== -->
+  <section class="section is-soft">
+    <div class="container narrow">
+      <h2 class="section-title">Abstract</h2>
+      <div class="content">
+        <p>
+          Joint audio-video generative models serve as the foundation for immersive and interactive digital-human generation. Nevertheless, most existing models rely on bidirectional attention and multi-step denoising and can generate only short clips, making them unsuitable for real-time interaction over extended durations. We present <strong>Omni-LiveAvatar</strong>, the first framework for minute-level, real-time streaming joint audio-video avatar generation. Specifically, we propose (1) a <em>progressive autoregressive distillation pipeline</em> that transfers a large bidirectional joint audio-video diffusion model into a few-step autoregressive generator without auxiliary stabilization mechanisms; (2) a <em>synchronized audio-video long-short-term memory</em> that preserves global consistency under a bounded memory budget; and (3) a <em>hierarchical rolling prompt planning</em> strategy that enables coherent semantic evolution and seamless prompt transitions. Extensive experiments show that Omni-LiveAvatar generates high-quality, synchronized minute-level avatars in real time. In terms of speed, it achieves a <strong>33&times;</strong> generation speedup over its teacher, LTX-2, on a single NVIDIA H200 GPU; in terms of generation quality, it outperforms accelerated baselines across visual quality, audio quality, cross-modal synchronization, and human fidelity.
+        </p>
+      </div>
+
+      <div class="highlight-grid">
+        <div class="highlight-card">
+          <strong>Progressive Autoregressive Distillation</strong>
+          <p>A three-stage pipeline (Few-Step Distillation &rarr; Trajectory-Aligned Causal Initialization &rarr; Joint Rolling Forcing) that converts a bidirectional teacher into a real-time streaming generator without auxiliary stabilization mechanisms.</p>
+        </div>
+        <div class="highlight-card">
+          <strong>Synchronized Audio-Video Memory</strong>
+          <p>Periodically re-anchored long-term memory combined with a rolling KV cache preserves global consistency, recent context, and cross-modal alignment under a bounded memory budget.</p>
+        </div>
+        <div class="highlight-card">
+          <strong>Hierarchical Prompt Planning</strong>
+          <p>Decomposes the full prompt into a fixed global prompt and block-level local prompts that advance with the rolling window, enabling smooth semantic transitions without conflicts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Method Overview ===== -->
+  <section class="section">
+    <div class="container wide">
+      <h2 class="section-title has-text-centered">Method Overview</h2>
+      <p class="section-subtitle has-text-centered">
+        Omni-LiveAvatar combines progressive autoregressive distillation, synchronized audio-video long-short-term memory, and hierarchical rolling prompt planning.
+      </p>
+
+      <div class="method-panel">
+        <img class="paper-img" src="static/images/overview_6.jpg" alt="Overview of Omni-LiveAvatar framework">
+      </div>
+      <p class="caption">
+        Overview of Omni-LiveAvatar. The proposed progressive autoregressive distillation pipeline converts a large bidirectional audio-video diffusion model into a few-step causal generator without any auxiliary stabilization mechanism (top). At inference, the synchronized audio-video long-short-term memory preserves global consistency while retaining recent context within a bounded memory budget for minute-level streaming inference (middle), and the hierarchical rolling prompt planning organizes global and local prompts for smooth long-form semantic evolution (bottom).
+      </p>
+
+      <h3 class="subsection-title has-text-centered">Trajectory-Aligned Causal Initialization</h3>
+      <div class="method-panel compact">
+        <img class="paper-img" src="static/images/dmd_new.jpg" alt="Visualization of denoising trajectories: DMD aligns output distribution but disrupts pointwise trajectory">
+      </div>
+      <p class="caption">
+        Visualization of the denoising trajectories (left) and output distributions (right) of the multi-step teacher and few-step student. DMD aligns the output distribution but disrupts the pointwise denoising trajectory. Our Stage II generates ODE pairs from the distilled few-step model itself, avoiding trajectory mismatch and stabilizing causal initialization.
+      </p>
+    </div>
+  </section>
+
+  <!-- Video Comparisons: coming soon -->
+
+  <!-- ===== Quantitative Results ===== -->
+  <section class="section">
+    <div class="container wide">
+      <h2 class="section-title has-text-centered">Quantitative Results</h2>
+      <p class="section-subtitle has-text-centered">
+        Omni-LiveAvatar achieves state-of-the-art performance across video quality, human fidelity, audio quality, and audio-video synchronization, with a 33&times; speedup over LTX-2.
+      </p>
+
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-value">33&times; Speedup &amp; 21.99 FPS</div>
+          <div class="metric-label">Real-Time Streaming Generation on NVIDIA H200</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">All-Metric SOTA</div>
+          <div class="metric-label">Best Across All Evaluated Metrics on 5-Second and 60-Second Generation</div>
+        </div>
+      </div>
+
+      <!-- Table 1: 5s Main Results -->
+      <div class="table-block">
+        <div class="table-title">Table 1. Quantitative Comparison on 5-Second Avatar Generation</div>
+        <div class="table-wrap">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Method</th>
+                <th colspan="1" class="group-hdr">Speed</th>
+                <th colspan="5" class="group-hdr">Video Quality</th>
+                <th rowspan="2">VideoAlign&uarr;</th>
+                <th colspan="3" class="group-hdr">Human Fidelity</th>
+                <th colspan="3" class="group-hdr">Audio Quality</th>
+                <th rowspan="2">SyncNet Confidence&uarr;</th>
+              </tr>
+              <tr>
+                <th>FPS&uarr;</th>
+                <th>Subject Consistency&uarr;</th>
+                <th>Background Consistency&uarr;</th>
+                <th>Aesthetic Quality&uarr;</th>
+                <th>Imaging Quality&uarr;</th>
+                <th>Quality Score&uarr;</th>
+                <th>Human Anatomy&uarr;</th>
+                <th>Human Identity&uarr;</th>
+                <th>Human Clothing&uarr;</th>
+                <th>UTMOS&uarr;</th>
+                <th>DNSMOS&uarr;</th>
+                <th>NISQA&uarr;</th>
+              </tr>
+              <tr><td>LTX-2</td><td>0.60</td><td>92.54</td><td>93.42</td><td>56.37</td><td>71.53</td><td>79.39</td><td>7.77</td><td>96.23</td><td>92.93</td><td>99.57</td><td>3.54</td><td>3.75</td><td>3.47</td><td>6.89</td></tr>
+              <tr><td>Ovi</td><td>1.41</td><td>97.10</td><td>95.29</td><td>33.13</td><td>65.83</td><td>76.14</td><td>6.51</td><td>98.55</td><td>97.13</td><td>99.19</td><td>3.10</td><td>3.72</td><td>2.63</td><td>6.88</td></tr>
+              <tr class="group-row"><td colspan="15">Real-time Autoregressive Models</td></tr>
+              <tr><td>OmniForcing</td><td>16.11</td><td>98.05</td><td>94.47</td><td>60.14</td><td>70.75</td><td>80.05</td><td>8.11</td><td>88.76</td><td>98.51</td><td class="best">100.00</td><td>2.46</td><td>3.84</td><td>3.03</td><td>1.60</td></tr>
+              <tr><td>Hallo-Live</td><td>16.50</td><td>98.20</td><td>93.64</td><td>27.97</td><td>66.04</td><td>74.21</td><td>8.04</td><td>98.39</td><td>97.42</td><td class="best">100.00</td><td>2.96</td><td>3.81</td><td>2.95</td><td>4.50</td></tr>
+              <tr class="ours-row"><td><strong>Omni-LiveAvatar</strong></td><td class="best">19.57</td><td class="best">99.28</td><td class="best">97.52</td><td class="best">63.61</td><td class="best">72.11</td><td class="best">81.72</td><td class="best">9.08</td><td class="best">98.76</td><td class="best">100.00</td><td class="best">100.00</td><td class="best">3.19</td><td class="best">3.95</td><td class="best">3.06</td><td class="best">6.16</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Best results among real-time autoregressive models are highlighted in bold. &uarr; indicates higher is better.</p>
+      </div>
+
+      <!-- Table 2: 60s Main Results -->
+      <div class="table-block">
+        <div class="table-title">Table 2. Quantitative Comparison on Minute-Level (60s) Avatar Generation</div>
+        <div class="table-wrap">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Method</th>
+                <th colspan="1" class="group-hdr">Speed</th>
+                <th colspan="4" class="group-hdr">Video Quality</th>
+                <th rowspan="2">VideoAlign&uarr;</th>
+                <th colspan="3" class="group-hdr">Human Fidelity</th>
+                <th colspan="3" class="group-hdr">Audio Quality</th>
+                <th rowspan="2">SyncNet Confidence&uarr;</th>
+              </tr>
+              <tr>
+                <th>FPS&uarr;</th>
+                <th>Subject Consistency&uarr;</th>
+                <th>Motion Smoothness&uarr;</th>
+                <th>Aesthetic Quality&uarr;</th>
+                <th>Imaging Quality&uarr;</th>
+                <th>Human Anatomy&uarr;</th>
+                <th>Human Identity&uarr;</th>
+                <th>Human Clothing&uarr;</th>
+                <th>UTMOS&uarr;</th>
+                <th>DNSMOS&uarr;</th>
+                <th>NISQA&uarr;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="group-row"><td colspan="14">Real-time Autoregressive Models</td></tr>
+              <tr><td>OmniForcing</td><td>16.18</td><td>98.71</td><td>99.38</td><td>54.90</td><td>71.70</td><td>6.68</td><td>92.14</td><td>50.19</td><td class="best">100.00</td><td>1.60</td><td>3.51</td><td>2.90</td><td>0.28</td></tr>
+              <tr><td>Hallo-Live</td><td>13.80</td><td>99.50</td><td>99.19</td><td>47.16</td><td>61.18</td><td>5.46</td><td>97.81</td><td>67.60</td><td>77.20</td><td>2.02</td><td>3.97</td><td>2.99</td><td>0.72</td></tr>
+              <tr class="ours-row"><td><strong>Omni-LiveAvatar</strong></td><td class="best">21.99</td><td class="best">99.55</td><td class="best">99.68</td><td class="best">61.98</td><td class="best">71.71</td><td class="best">9.82</td><td class="best">99.85</td><td class="best">98.61</td><td class="best">100.00</td><td class="best">2.80</td><td class="best">4.04</td><td class="best">3.24</td><td class="best">6.76</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Best results among real-time autoregressive models are highlighted in bold. &uarr; indicates higher is better.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Qualitative Comparisons ===== -->
+  <section class="section is-soft">
+    <div class="container wide">
+      <h2 class="section-title has-text-centered">Qualitative Comparisons</h2>
+      <p class="section-subtitle has-text-centered">
+        Omni-LiveAvatar generates realistic, temporally consistent avatars with stable appearance and accurate audio-video synchronization across both short and minute-long generation.
+      </p>
+
+      <!-- 5-Second -->
+      <h3 class="subsection-title has-text-centered">5-Second Generation</h3>
+      <div class="method-panel">
+        <img class="paper-img" src="static/images/5s_exp.jpg" alt="Qualitative comparison of 5-second avatar generation">
+      </div>
+      <p class="caption">
+        Qualitative comparison of 5-second avatar generation. Omni-LiveAvatar generates realistic and temporally consistent avatars with visual quality comparable to Ovi and LTX-2, whereas OmniForcing exhibits noticeable realism degradation and Hallo-Live suffers from facial and hand artifacts as well as color drift.
+      </p>
+
+      <!-- 60-Second -->
+      <h3 class="subsection-title has-text-centered">60-Second Generation</h3>
+      <div class="method-panel" style="margin-bottom: 1rem;">
+        <img class="paper-img" src="static/images/media_supp-1.jpg" alt="Additional 60s comparison 1">
+      </div>
+      <div class="method-panel" style="margin-bottom: 1rem;">
+        <img class="paper-img" src="static/images/media_supp-2.jpg" alt="Additional 60s comparison 2">
+      </div>
+      <div class="method-panel" style="margin-bottom: 1rem;">
+        <img class="paper-img" src="static/images/media_supp-3.jpg" alt="Additional 60s comparison 3">
+      </div>
+      <div class="method-panel" style="margin-bottom: 1rem;">
+        <img class="paper-img" src="static/images/media_supp-4.jpg" alt="Additional 60s comparison 4">
+      </div>
+      <div class="method-panel" style="margin-bottom: 1rem;">
+        <img class="paper-img" src="static/images/media_supp-5.jpg" alt="Additional 60s comparison 5">
+      </div>
+      <div class="method-panel" style="margin-bottom: 1rem;">
+        <img class="paper-img" src="static/images/media_supp-6.jpg" alt="Additional 60s comparison 6">
+      </div>
+      <p class="caption">
+        Additional qualitative comparisons on 60-second avatar generation. Omni-LiveAvatar maintains consistent avatar and background appearance throughout minute-long generation, while baselines exhibit severe appearance drift and degraded synchronization.
+      </p>
+    </div>
+  </section>
+  <section class="section is-soft">
+    <div class="container wide">
+      <h2 class="section-title has-text-centered">Ablation Study</h2>
+      <p class="section-subtitle has-text-centered">
+        Ablations validate the individual contributions of each proposed component.
+      </p>
+
+      <!-- Ablation Table 1: Training -->
+      <div class="table-block">
+        <div class="table-title">Ablation on Training Strategies</div>
+        <div class="table-wrap">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Variant</th>
+                <th colspan="1" class="group-hdr">Video Quality</th>
+                <th colspan="3" class="group-hdr">Audio Quality</th>
+                <th rowspan="2">SyncNet Confidence&uarr;</th>
+                <th rowspan="2">VideoAlign&uarr;</th>
+              </tr>
+              <tr>
+                <th>Quality Score&uarr;</th>
+                <th>UTMOS&uarr;</th>
+                <th>DNSMOS&uarr;</th>
+                <th>NISQA&uarr;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>w/o RF &amp; w/o TA-ODE</td><td>72.05</td><td>1.51</td><td>3.21</td><td>2.70</td><td>1.23</td><td>1.24</td></tr>
+              <tr><td>w/o RF</td><td>80.67</td><td>1.93</td><td>3.38</td><td>2.44</td><td>4.58</td><td>8.09</td></tr>
+              <tr><td>w/o TA-ODE</td><td>81.25</td><td>3.14</td><td>3.81</td><td>2.96</td><td>5.98</td><td>8.63</td></tr>
+              <tr class="ours-row"><td><strong>Ours (full)</strong></td><td class="best">81.72</td><td class="best">3.19</td><td class="best">3.95</td><td class="best">3.06</td><td class="best">6.16</td><td class="best">9.08</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">We compare against three settings: (1) using joint self-forcing instead of joint rolling forcing and generating ODE pairs with the multi-step teacher (w/o RF &amp; w/o TA-ODE); (2) using joint self-forcing instead of joint rolling forcing (w/o RF); and (3) generating ODE pairs with the multi-step teacher (w/o TA-ODE). Removing both components causes drastic degradation across all metrics. w/o RF mainly degrades audio quality and synchronization, while w/o TA-ODE primarily degrades video quality and text-video alignment. Only combining both achieves the best performance.</p>
+      </div>
+
+      <!-- Ablation Table 2: Memory -->
+      <div class="table-block">
+        <div class="table-title">Ablation on Memory Mechanisms</div>
+        <div class="table-wrap">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Variant</th>
+                <th colspan="2" class="group-hdr">Video Quality</th>
+                <th colspan="3" class="group-hdr">Audio Quality</th>
+                <th rowspan="2">SyncNet Confidence&uarr;</th>
+                <th rowspan="2">VideoAlign&uarr;</th>
+              </tr>
+              <tr>
+                <th>Aesthetic Quality&uarr;</th>
+                <th>Imaging Quality&uarr;</th>
+                <th>UTMOS&uarr;</th>
+                <th>DNSMOS&uarr;</th>
+                <th>NISQA&uarr;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>w/o LTM</td><td>58.61</td><td>71.16</td><td>2.79</td><td>4.03</td><td>3.22</td><td>5.79</td><td>9.70</td></tr>
+              <tr><td>w/o re-anchor</td><td>61.16</td><td>71.43</td><td>2.78</td><td>4.02</td><td>3.23</td><td>6.70</td><td>9.82</td></tr>
+              <tr><td>async LTM</td><td>61.93</td><td>71.69</td><td>2.76</td><td>4.03</td><td>3.21</td><td>6.61</td><td>9.80</td></tr>
+              <tr class="ours-row"><td><strong>Ours (full)</strong></td><td class="best">61.98</td><td class="best">71.71</td><td class="best">2.80</td><td class="best">4.04</td><td class="best">3.24</td><td class="best">6.76</td><td class="best">9.82</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">We compare against three settings: (1) without the long-term memory (w/o LTM); (2) without periodic RoPE re-anchoring (w/o re-anchor); and (3) with temporally misaligned audio and video long-term memory (async LTM). w/o LTM causes the largest degradation in both video quality and synchronization, indicating that video generation is more vulnerable to temporal drift. Removing re-anchoring mainly weakens video quality metrics, while async LTM primarily harms cross-modal alignment.</p>
+      </div>
+
+      <!-- Ablation Table 3: Prompt Planning -->
+      <div class="table-block">
+        <div class="table-title">Ablation on Prompt Planning Strategies</div>
+        <div class="table-wrap">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Variant</th>
+                <th colspan="2" class="group-hdr">Video Quality</th>
+                <th colspan="3" class="group-hdr">Audio Quality</th>
+                <th rowspan="2">SyncNet Confidence&uarr;</th>
+                <th rowspan="2">VideoAlign&uarr;</th>
+              </tr>
+              <tr>
+                <th>Aesthetic Quality&uarr;</th>
+                <th>Imaging Quality&uarr;</th>
+                <th>UTMOS&uarr;</th>
+                <th>DNSMOS&uarr;</th>
+                <th>NISQA&uarr;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>w/o rolling prompt</td><td>55.74</td><td>68.45</td><td>1.60</td><td>3.28</td><td>2.38</td><td>4.47</td><td>9.72</td></tr>
+              <tr><td>5s-interval switching</td><td>61.23</td><td>71.33</td><td>2.65</td><td>3.94</td><td>3.19</td><td>5.11</td><td>9.71</td></tr>
+              <tr class="ours-row"><td><strong>Ours (full)</strong></td><td class="best">61.98</td><td class="best">71.71</td><td class="best">2.80</td><td class="best">4.04</td><td class="best">3.24</td><td class="best">6.76</td><td class="best">9.82</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">We compare against two settings: (1) providing the full prompt to the model at once (w/o rolling prompt); and (2) updating the prompt every 5 seconds (5s-interval switching). Audio-related metrics are more sensitive to the prompt planning strategy than video metrics, confirming that audio requires a finer-grained and smoother prompt schedule. Providing the full prompt at once yields the largest drops across nearly all metrics, while switching every 5s mainly degrades audio quality and audio-video alignment. Our hierarchical rolling prompt planning enables smooth, continuous, and aligned audio-video generation under the joint rolling-forcing inference paradigm.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- BibTeX: coming soon -->
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container has-text-centered">
+      <p>
+        Project page for <a href="https://github.com/Aoko955/Omni-LiveAvatar" target="_blank">Omni-LiveAvatar</a>.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
