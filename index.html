@@ -6,6 +6,9 @@
   <title>Omni-LiveAvatar: Minute-Level Real-Time Streaming Joint Audio-Video Avatar Generation</title>
   <meta name="description" content="Omni-LiveAvatar — the first framework for minute-level, real-time streaming joint audio-video avatar generation.">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
@@ -28,7 +31,9 @@
     body {
       color: var(--ink);
       background: var(--paper);
-      font-family: "Noto Sans", "Inter", "Segoe UI", Arial, sans-serif;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      font-size: 18px;
+      line-height: 1.65;
       letter-spacing: 0;
     }
 
@@ -42,22 +47,32 @@
     }
 
     .hero-body {
-      padding: 3.5rem 1.5rem 2.5rem;
+      padding: 4.2rem 1.5rem 3rem;
     }
 
     .publication-title {
-      max-width: 980px;
+      max-width: 1080px;
       margin: 0 auto;
-      font-size: 2.35rem;
-      font-weight: 750;
-      line-height: 1.18;
+      font-size: 3.55rem;
+      font-weight: 800;
+      letter-spacing: -.035em;
+      line-height: 1.08;
+    }
+
+    .publication-subtitle {
+      max-width: 760px;
+      margin: .85rem auto 0;
+      color: #3a4150;
+      font-size: 1.38rem;
+      font-weight: 550;
+      line-height: 1.4;
     }
 
     .publication-authors {
-      max-width: 980px;
-      margin: 1rem auto 0;
-      font-size: 1.05rem;
-      line-height: 1.7;
+      max-width: 860px;
+      margin: 1.35rem auto 0;
+      font-size: 1.08rem;
+      line-height: 1.75;
     }
 
     .author-block {
@@ -66,22 +81,23 @@
     }
 
     .affiliations {
-      margin-top: .6rem;
+      margin-top: .7rem;
       color: var(--muted);
-      font-size: .95rem;
+      font-size: 1rem;
     }
 
     .publication-links {
-      margin-top: 1.25rem;
+      margin-top: 1.45rem;
     }
 
     .publication-links .button {
       margin: .25rem;
-      min-width: 112px;
+      min-width: 124px;
+      font-size: 1rem;
     }
 
     .section {
-      padding: 2.7rem 1.5rem;
+      padding: 3.1rem 1.5rem;
     }
 
     .section.is-soft {
@@ -96,24 +112,27 @@
     }
 
     .container.narrow {
-      max-width: 860px;
+      max-width: 820px;
     }
 
     .container.wide {
-      max-width: 1120px;
+      max-width: 980px;
     }
 
     .section-title {
       color: inherit;
-      font-size: 1.55rem;
-      font-weight: 700;
-      margin-bottom: 1.1rem;
+      font-size: 2rem;
+      font-weight: 750;
+      letter-spacing: -.02em;
+      margin-bottom: 1.15rem;
     }
 
     .section-subtitle {
       color: var(--muted);
-      margin: -.45rem 0 1.3rem;
-      line-height: 1.6;
+      margin: -.35rem auto 1.35rem;
+      max-width: 760px;
+      font-size: 1.08rem;
+      line-height: 1.65;
     }
 
     .is-darkband .section-subtitle {
@@ -121,16 +140,23 @@
     }
 
     .content p {
-      font-size: 1.04rem;
-      line-height: 1.72;
+      font-size: 1.12rem;
+      line-height: 1.78;
+    }
+
+    .media-frame,
+    .method-panel {
+      max-width: 920px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .media-frame {
       overflow: hidden;
       border: 1px solid rgba(17, 19, 24, .1);
-      border-radius: 8px;
+      border-radius: 10px;
       background: #050609;
-      box-shadow: 0 12px 34px rgba(17, 19, 24, .1);
+      box-shadow: 0 8px 22px rgba(17, 19, 24, .08);
     }
 
     .teaser-img,
@@ -142,9 +168,10 @@
 
     .caption {
       color: var(--muted);
-      font-size: .92rem;
-      line-height: 1.55;
-      margin-top: .7rem;
+      max-width: 780px;
+      margin: .85rem auto 0;
+      font-size: 1.02rem;
+      line-height: 1.62;
       text-align: center;
     }
 
@@ -156,42 +183,41 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1rem;
-      margin-top: 1.3rem;
+      margin-top: 1.5rem;
     }
 
     .highlight-card {
       border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 1rem;
+      border-radius: 10px;
+      padding: 1.15rem 1.1rem;
       background: #fff;
     }
 
     .highlight-card strong {
       display: block;
       color: var(--accent);
-      margin-bottom: .45rem;
+      font-size: 1.02rem;
+      margin-bottom: .5rem;
     }
 
     .highlight-card p {
       color: var(--muted);
-      font-size: .95rem;
-      line-height: 1.55;
+      font-size: 1rem;
+      line-height: 1.58;
       margin: 0;
     }
 
     .method-panel {
       overflow: hidden;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 10px;
       background: #fff;
-      box-shadow: 0 8px 24px rgba(17, 19, 24, .08);
+      box-shadow: 0 6px 18px rgba(17, 19, 24, .06);
       margin-top: 1rem;
     }
 
     .method-panel.compact {
-      max-width: 980px;
-      margin-left: auto;
-      margin-right: auto;
+      max-width: 780px;
     }
 
     .video-case {
@@ -292,39 +318,39 @@
 
     .metric-value {
       color: var(--cool);
-      font-size: 1.65rem;
+      font-size: 1.55rem;
       font-weight: 750;
-      line-height: 1;
+      line-height: 1.2;
     }
 
     .metric-label {
       color: var(--muted);
-      font-size: .92rem;
+      font-size: 1rem;
       margin-top: .55rem;
     }
 
     .subsection-title {
       color: inherit;
-      font-size: 1.18rem;
+      font-size: 1.38rem;
       font-weight: 700;
-      margin: 2rem 0 .75rem;
+      margin: 2.2rem 0 .85rem;
     }
 
     .table-block {
-      margin-top: 1.6rem;
+      margin-top: 1.8rem;
     }
 
     .table-title {
-      font-size: 1.05rem;
+      font-size: 1.12rem;
       font-weight: 700;
-      margin-bottom: .55rem;
+      margin-bottom: .65rem;
     }
 
     .table-note {
       color: var(--muted);
-      font-size: .88rem;
-      line-height: 1.45;
-      margin-top: .55rem;
+      font-size: .95rem;
+      line-height: 1.55;
+      margin-top: .65rem;
     }
 
     .table-wrap {
@@ -338,8 +364,8 @@
       width: 100%;
       min-width: 780px;
       border-collapse: collapse;
-      font-size: .88rem;
-      line-height: 1.35;
+      font-size: .92rem;
+      line-height: 1.4;
     }
 
     table.results-table th,
@@ -419,7 +445,11 @@
 
     @media (max-width: 900px) {
       .publication-title {
-        font-size: 1.85rem;
+        font-size: 2.55rem;
+      }
+
+      .publication-subtitle {
+        font-size: 1.18rem;
       }
 
       .highlight-grid,
@@ -438,12 +468,24 @@
     }
 
     @media (max-width: 680px) {
+      body {
+        font-size: 17px;
+      }
+
       .hero-body {
-        padding-top: 2.4rem;
+        padding-top: 2.6rem;
       }
 
       .publication-title {
-        font-size: 1.45rem;
+        font-size: 2.15rem;
+      }
+
+      .publication-subtitle {
+        font-size: 1.08rem;
+      }
+
+      .section-title {
+        font-size: 1.7rem;
       }
 
       .video-grid {
@@ -468,9 +510,10 @@
   <section class="hero">
     <div class="hero-body">
       <div class="container has-text-centered">
-        <h1 class="publication-title">
-          Omni-LiveAvatar: Minute-Level Real-Time Streaming Joint Audio-Video Avatar Generation
-        </h1>
+        <h1 class="publication-title">Omni-LiveAvatar</h1>
+        <p class="publication-subtitle">
+          Minute-Level Real-Time Streaming Joint Audio-Video Avatar Generation
+        </p>
         <div class="publication-authors">
           <span class="author-block"><a href="https://scholar.google.com/citations?user=ZnKjHG0AAAAJ&hl=zh-CN" target="_blank">Lunjie Zhu</a><sup>1,2</sup>,</span>
           <span class="author-block"><a href="https://xingtongge.github.io" target="_blank">Xingtong Ge</a><sup>1,2</sup>,</span>
@@ -488,8 +531,11 @@
           <sup>2</sup>Vivix Group Limited
         </div>
         <div class="publication-links">
-          <a class="button is-rounded is-dark" href="https://arxiv.org" target="_blank" style="opacity:0.5; pointer-events:none;">
-            <span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv (coming soon)</span>
+          <a class="button is-rounded is-dark" href="https://arxiv.org/abs/2608.13602" target="_blank">
+            <span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span>
+          </a>
+          <a class="button is-rounded is-dark" href="https://arxiv.org/pdf/2608.13602" target="_blank">
+            <span class="icon"><i class="fas fa-file-pdf"></i></span><span>PDF</span>
           </a>
           <a class="button is-rounded is-dark" href="https://github.com/Aoko955/Omni-LiveAvatar" target="_blank">
             <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
@@ -813,7 +859,23 @@
   </section>
 
 
-  <!-- BibTeX: coming soon -->
+  <!-- ===== BibTeX ===== -->
+  <section class="section">
+    <div class="container narrow">
+      <h2 class="section-title">BibTeX</h2>
+      <div class="bibtex-box">
+        <pre>@misc{zhu2026omniliveavatar,
+  title={Omni-LiveAvatar: Minute-Level Real-Time Streaming Joint Audio-Visual Avatar Generation},
+  author={Lunjie Zhu and Xingtong Ge and Fangyu Lin and Yi Zhang and Zhening Liu and Mengfei Li and Yumeng Zhang and Guanglu Song and Yu Liu and Jun Zhang},
+  year={2026},
+  eprint={2608.13602},
+  archivePrefix={arXiv},
+  primaryClass={cs.MM},
+  url={https://arxiv.org/abs/2608.13602}
+}</pre>
+      </div>
+    </div>
+  </section>
 
   <!-- ===== Footer ===== -->
   <footer class="footer">
